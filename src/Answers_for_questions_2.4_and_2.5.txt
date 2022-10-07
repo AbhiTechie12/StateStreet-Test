@@ -1,0 +1,35 @@
+2.4). What if we want to record course scores?  What possible changes need to be made? Explain briefly.
+
+Answer) REGISTRATION table will have another column - SCORE that will store the score of a course for a student.
+
+         Changes in Student Entity class:
+         1) Set<Course> course will be replaced by Set<Registration> registration.
+         2) Set<Registration> registration will have @OneToMany
+
+         Changes in Student Entity class:
+         1) Set<Student> student will be replaced by Set<Registration> registration.
+         2) Set<Registration> registration will have @OneToMany
+
+         New Entity class - Registration:
+
+         @Entity
+         @Table(name = "REGISTRATION")
+         class Registration {
+             @Id
+             @GeneratedValue(strategy = GenerationType.IDENTITY)
+             Long id;
+
+             @ManyToOne
+             @JoinColumn(name = "STUDENT_ID")
+             Student student;
+
+             @ManyToOne
+             @JoinColumn(name = "COURSE_ID")
+             Course course;
+
+             Integer score;
+         }
+
+
+2.5). How to find all students who don’t register for a given course?
+Answer) Implemented in StudentRepositoryImpl as findAllNotMatchedByCourseName(String courseName)
